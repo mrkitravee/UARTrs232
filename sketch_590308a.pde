@@ -17,13 +17,6 @@ void draw() {
   
   textSize(36);
   text(words, 50, 120, 540, 300);
-  /*while (myPort.available() > 0) {
-   
-   String inBuffer = myPort.readString();   
-    if (inBuffer != null) {
-      println(inBuffer);
-    }
-  }*/
 }
 
 void keyTyped() {
