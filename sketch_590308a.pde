@@ -4,6 +4,8 @@ String words = "";
 Serial myPort;  // The serial port
 void setup() {
   size(640, 360);
+  // Open the port you are using at the rate you want:
+  myPort = new Serial(this, Serial.list()[0], 9600);
 }
 
 void draw() {
@@ -17,6 +19,13 @@ void draw() {
   
   textSize(36);
   text(words, 50, 120, 540, 300);
+  /*while (myPort.available() > 0) {
+   
+   String inBuffer = myPort.readString();   
+    if (inBuffer != null) {
+      println(inBuffer);
+    }
+  }*/
 }
 
 void keyTyped() {
