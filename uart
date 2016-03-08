@@ -1,0 +1,44 @@
+library ieee;
+use ieee.std_logic_1164.all;
+entity uart is
+	port( clk : in std_logic;
+			rst_i : in std_logic;
+			rx : in std_logic;
+			ack_o : out std_logic;
+			tx : out std_logic);
+end uart;
+
+architecture structural of uart is
+signal req : std_logic;
+signal data: std_logic_vector(7 downto 0);
+component rs232_tx is
+	generic(
+		SYSTEM_SPEED : integer := 50e6;
+		BAUDRATE		 : integer := 9600);
+	port(
+		clk_i		: in std_logic; --clk
+		rst_i		: in std_logic; --reset
+		req_i		: in std_logic; --request in
+		ack_o		: out std_logic; -- ack
+		data_i 	: in std_logic_vector(7 downto 0); --data input
+		tx			: out std_logic); --data out
+end component;
+
+component rs232_rx is
+	generic(
+		SYSTEM_SPEED : integer := 50e6 ;
+		BAUDRATE : integer := 9600 );
+	port(
+		clk_i : in std_logic; --clk
+		rst_i : in std_logic; --reset
+		req_o : out std_logic := '0' ;  --request out
+		data_o : out std_logic_vector(7 downto 0); --data output
+		rx : in std_logic); --data from computer
+end component;
+
+begin
+	U0: rs232_rx
+		port map(clk,rst_i,req,data,rx);
+	U1: rs232_tx 
+		port map(clk,rst_i,req,ack_o,data,tx);
+end structural;
